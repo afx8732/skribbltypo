@@ -33,6 +33,7 @@ import { ChatProfileLinkFeature } from "@/app/features/chat-profile-link/chat-pr
 import { ChatQuickReactFeature } from "@/app/features/chat-quick-react/chat-quick-react.feature";
 import { ChatRecallFeature } from "@/app/features/chat-recall/chat-recall.feature";
 import { CloudService } from "@/app/features/controls-cloud/cloud.service";
+import { ConfirmBeforeClearFeature } from "./features/confirm-before-clear/confirm-before-clear.feature";
 import { ControlsCloudFeature } from "@/app/features/controls-cloud/controls-cloud.feature";
 import { ControlsOnboardingFeature } from "@/app/features/controls-onboarding/controls-onboarding.feature";
 import { ControlsProfilesFeature } from "@/app/features/controls-profiles/controls-profiles.feature";
@@ -244,7 +245,8 @@ new ExtensionContainer(interceptor)
     ControlsOnboardingFeature,
     ControlsProfilesFeature,
     ChatAvatarsFeature,
-    DrawingSizeHotkeysFeature
+    DrawingSizeHotkeysFeature,
+    ConfirmBeforeClearFeature
   );
 
 /* indicate for interceptor that content script has loaded */
