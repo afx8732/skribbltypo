@@ -1126,5 +1126,15 @@ export const gameJsPatchConfig = {
         },
       ],
     },
+    {
+      name: "Confirm before clear feature functionality",
+      replacements: [],
+      injections: [
+        {
+          position: "{(\\s+)[a-zA-Z0-9&_\\-$]+\\([a-zA-Z0-9&_\\-$]+\\[[a-zA-Z0-9&_\\-$]+\\]\\.element\\), [a-zA-Z0-9&_\\-$]+\\[",
+          code: "if (event.target.style.backgroundImage.includes('clear') && event.target.parentElement.classList.contains('ask-first') && !confirm(\"Are you sure you'd like to clear?\")) return;"
+        }
+      ]
+    }
   ],
 };
