@@ -1,5 +1,5 @@
 import { FeatureTag } from "@/app/core/feature/feature-tags";
-import { BooleanExtensionSetting, ExtensionSetting } from "@/app/core/settings/setting";
+import { BooleanExtensionSetting, ExtensionSetting, HexColorExtensionSetting } from "@/app/core/settings/setting";
 import { ChatService, type chatboxEventFilter } from "@/app/services/chat/chat.service";
 import { LobbyService } from "@/app/services/lobby/lobby.service";
 import type { componentData } from "@/app/services/modal/modal.service";
@@ -45,10 +45,10 @@ export class ChatMessageHighlightingFeature extends TypoFeature {
       .withDescription("Shows an keyboard-navigable autocomplete window for pings."),
   );
 
-  private _enableSelfHighlighting = this.useSetting(
-    new BooleanExtensionSetting("highlight_my_messages", false, this)
-      .withName("Highlight My Messages")
-      .withDescription("Highlights your own messages.")
+  private _selfHighlightingColor = this.useSetting(
+    new HexColorExtensionSetting("highlight_my_messages_color", "#00ff00", this)
+      .withName("Self Highlight Color")
+      .withDescription("What color to highlight your own messages. Set to black to disable")
   );
 
   private chatSubscription?: Subscription;
@@ -243,13 +243,14 @@ export class ChatMessageHighlightingFeature extends TypoFeature {
       return;
     }
 
-    const selfHl = await this._enableSelfHighlighting.getValue();
+    const selfHl = await this._selfHighlightingColor.getValue();
     const lookFor = `@${myName} `;
 
     const isPingingMe = (content + " ").includes(lookFor);
-    const shouldHighlightSelf = selfHl && myName === senderName;
     this._logger.debug(vipPlayers);
-    if (isPingingMe || shouldHighlightSelf) newElement.parentElement?.classList.add("guessed");
+    if (isPingingMe) return newElement.parentElement?.classList.add("guessed");
+    if (selfHl !== "#000000")
+      return newElement.parentElement?.style.setProperty("background-color", `${selfHl}88`);
   }
 
   private specialKeyboardHandling(evt: KeyboardEvent, candidates: string[]) {
