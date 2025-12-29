@@ -181,13 +181,10 @@ export class MetricView<TEvent extends lobbyStatEvent> {
       /* select the whole time series of a player dataset */
       if(this._aggregation === "single"){
         dataPoints = playerEvents.map((e) => ({
-          // note: increase by one for later unshift
-          x: (temporalLookup.get(this.buildTemporalKey(e.lobbyRound, e.turnPlayerId)) ?? 0) + 1,
+          x: temporalLookup.get(this.buildTemporalKey(e.lobbyRound, e.turnPlayerId)) ?? 0,
           y: this._valueSelector(e),
           originalEvent: e,
         }));
-        // for start at (0, 0)
-        dataPoints.unshift({ x: 0, y: 0 });
       }
 
       /* calculate the sum of a players dataset */
